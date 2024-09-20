@@ -14,29 +14,50 @@ public class ItemService {
     ItemRepository itemRepository;
 
     public List<Item> getItems() {
-        return itemRepository.findAll();
+        try{
+            return itemRepository.findAll();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to fetch Items:" +e);
+        }
     }
 
 
     public String addInventoryItems(Item item) {
-        itemRepository.save(item);
-        return "Item Saved Successfully";
+       try{
+           itemRepository.save(item);
+           return "Item Saved Successfully : "+ item.getItemName();
+       } catch (RuntimeException e) {
+           throw new RuntimeException("Failed to add new Item:" +e);
+       }
     }
 
     public String updateItems(Item item, int itemId) {
-        if(itemRepository.findById(itemId).isPresent()){
-            item.setItemId(itemId);
-            itemRepository.save(item);
-            return "Updated Item Successfully";
+
+        try {
+            if (itemRepository.findById(itemId).isPresent()) {
+                item.setItemId(itemId);
+                itemRepository.save(item);
+                return item.getItemName() + " Item Updated Successfully";
+            }
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to Update the Item: " +e);
         }
-        throw new RuntimeException("Item not Found");
+        return "Item Not Found";
     }
 
     public String deleteItems(int itemId) {
-        if(itemRepository.findById(itemId).isPresent()){
-            itemRepository.deleteById(itemId);
-            return "Item Deleted Successfully";
+        try {
+            if (itemRepository.findById(itemId).isPresent()) {
+                itemRepository.deleteById(itemId);
+                return "Item Deleted Successfully";
+            }
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to Delete the Item: " +e);
         }
-        throw new RuntimeException("Item not Found");
+        return  "Item Not Found";
+    }
+
+    public Item getItembyItemName(String itemName) {
+        return  itemRepository.getByItemName(itemName);
     }
 }

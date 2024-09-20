@@ -10,7 +10,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int itemId;
-    @Column
+    @Column(nullable = false, unique = true)
     private String itemName;
     @Column
     private long itemPrice;
