@@ -58,6 +58,11 @@ public class ItemService {
     }
 
     public Item getItembyItemName(String itemName) {
-        return  itemRepository.getByItemName(itemName);
+        try {
+            return  itemRepository.getByItemName(itemName);
+        }catch (Exception e){
+            throw  new RuntimeException("Failed to fetch Items:"+ e);
+        }
+
     }
 }
