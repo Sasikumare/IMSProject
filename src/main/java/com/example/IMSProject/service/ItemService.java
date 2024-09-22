@@ -61,7 +61,7 @@ public class ItemService {
         try {
             return  itemRepository.getByItemName(itemName);
         }catch (Exception e){
-            throw  new RuntimeException("Failed to fetch Items:"+ e);
+            throw  new RuntimeException("Failed to fetch the Items:"+ e);
         }
 
     }
